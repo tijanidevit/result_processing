@@ -23,6 +23,10 @@ class DepartmentCourse extends Model
         return $this->belongsTo(Level::class);
     }
 
+    public function lecturerCourse() {
+        return $this->hasOne(LecturerCourse::class);
+    }
+
     public function semester() {
         return $this->belongsTo(Semester::class);
     }

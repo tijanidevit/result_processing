@@ -14,9 +14,8 @@ class StudentService {
 
     public function getAll() {
         return $this->student->oldest('name')
-        ->whereHas('departmentLecturer', function ($query) {
-            return $query->where('department_id', DepartmentUtil::getDepartmentId(auth()->user()));
-        })
+        ->with('level')
+        ->whereDepartmentId(DepartmentUtil::getDepartmentId(auth()->user()))
         ->get();
     }
     public function addNew($data) {

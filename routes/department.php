@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Department\CourseController;
 use App\Http\Controllers\Department\DashboardController;
 use App\Http\Controllers\Department\LecturerController;
 use App\Http\Controllers\Department\StudentController;
@@ -21,8 +22,8 @@ Route::middleware(['auth','isDepartment'])->prefix('department')->as('department
     });
 
     Route::prefix('courses')->as('course.')->group(function () {
-        Route::get('', [StudentController::class,'index'])->name('index');
-        Route::get('new', [StudentController::class,'create'])->name('create');
-        Route::post('', [StudentController::class,'store'])->name('store');
+        Route::get('', [CourseController::class,'index'])->name('index');
+        Route::get('new', [CourseController::class,'create'])->name('create');
+        Route::post('', [CourseController::class,'store'])->name('store');
     });
 });
