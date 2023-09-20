@@ -1,6 +1,6 @@
 @extends('department.layout.app')
 
-@section('title')Add new students @endsection
+@section('title')Add new courses @endsection
 
 @section('content')
 <div class="content-body">
@@ -10,11 +10,11 @@
             <div class="col-xl-12">
                 <div class="page-title flex-wrap">
                     <div class=" mb-md-0 mb-3">
-                        <h2>Add new student</h2>
+                        <h2>Add new course</h2>
                     </div>
                     <div>
-                        <a type="button" class="btn btn-primary" href="{{route('department.student.index')}}">
-                         View all students
+                        <a type="button" class="btn btn-primary" href="{{route('department.course.index')}}">
+                         View all courses
                         </a>
                     </div>
                 </div>
@@ -25,11 +25,11 @@
             <div class="col-xl-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Dean Details</h4>
+                        <h4 class="card-title">Course Details</h4>
                     </div>
                     <div class="card-body">
                         <div class="basic-form">
-                            <form enctype="multipart/form-data" method="post" action="{{ route('department.student.store') }}">
+                            <form enctype="multipart/form-data" method="post" action="{{ route('department.course.store') }}">
                                 @csrf
                                 @if (session('success'))
                                     <div class="alert alert-success">{{ session('success') }}</div>
@@ -52,27 +52,52 @@
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <div class="col-sm-3">Session</div>
+                                    <div class="col-sm-3">Semester</div>
                                     <div class="col-sm-9">
-                                        <select class="form-control" required name="session_id" value="{{old('session_id')}}">
-                                            <option value="" selected disabled>Select a session</option>
-                                            @forelse ($sessions as $session)
-                                                <option value="{{$session->id}}">{{$session->name}}</option>
+                                        <select class="form-control" required name="semester_id" value="{{old('semester_id')}}">
+                                            <option value="" selected disabled>Select a semester</option>
+                                            @forelse ($semesters as $semester)
+                                                <option value="{{$semester->id}}">{{$semester->name}}</option>
                                             @empty
 
                                             @endforelse
                                         </select>
 
-                                      {!!  requestError($errors,'session_id')  !!}
+                                      {!!  requestError($errors,'semester_id')  !!}
                                     </div>
                                 </div>
 
                                 <div class="mb-3 row">
-                                    <label class="col-sm-3 col-form-label">Student CSV</label>
+                                    <div class="col-sm-3">Lecturer</div>
                                     <div class="col-sm-9">
-                                        <input required name="csv_file" value="{{old('csv_file')}}" accept="text/csv" type="file" class="form-control" placeholder="Student CSV">
+                                        <select class="form-control" required name="lecturer_id" value="{{old('lecturer_id')}}">
+                                            <option value="" selected disabled>Select a lecturer</option>
+                                            @forelse ($lecturers as $lecturer)
+                                                <option value="{{$lecturer->id}}">{{$lecturer->name}}</option>
+                                            @empty
 
-                                      {!!  requestError($errors,'csv_file')  !!}
+                                            @endforelse
+                                        </select>
+
+                                      {!!  requestError($errors,'lecturer_id')  !!}
+                                    </div>
+                                </div>
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Course</label>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" required name="course_id" value="{{old('course_id')}}">
+                                            <option value="" selected disabled>Select a course</option>
+                                            @forelse ($courses as $course)
+                                                <option value="{{$course->id}}">
+                                                    ({{$course->title}}) - {{$course->title}}
+                                                </option>
+                                            @empty
+
+                                            @endforelse
+                                        </select>
+
+                                      {!!  requestError($errors,'course_id')  !!}
                                     </div>
                                 </div>
 

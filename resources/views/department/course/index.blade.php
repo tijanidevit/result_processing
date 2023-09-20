@@ -35,6 +35,7 @@
                                         <th>Title</th>
                                         <th>Code</th>
                                         <th>Level</th>
+                                        <th>Semester</th>
                                         <th>Assigned lecturer</th>
                                     </tr>
                                 </thead>
@@ -44,6 +45,7 @@
                                             <td>{{ $course->course->title }}</td>
                                             <td>{{ $course->course->code }}</td>
                                             <td>{{ $course->level?->name }}</td>
+                                            <td>{{ $course->semester?->name }}</td>
                                             <td>{{ $course->lecturerCourse?->user?->name }}</td>
                                         </tr>
                                     @empty

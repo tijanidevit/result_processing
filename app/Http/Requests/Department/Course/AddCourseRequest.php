@@ -24,6 +24,7 @@ class AddCourseRequest extends FormRequest
         return [
             'course_id' => 'required|exists:courses,id',
             'level_id' => 'required|exists:levels,id',
+            'lecturer_id' => 'required|exists:users,id',
             'semester_id' => 'required|exists:semesters,id',
         ];
     }
