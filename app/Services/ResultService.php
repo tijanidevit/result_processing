@@ -43,16 +43,42 @@ class ResultService {
         return compact('passedPercentage','failedPercentage','passed','failed','totalCount');
     }
 
-    public function getAnalysisForDepartment($sessionId, $semesterId) {
-        $departmentId = DepartmentUtil::getDepartmentId(auth()->user());
+    public function getAnalysisForDepartment($sessionId, $semesterId, $departmentId, $levelId = null) {
+        $studentFilter = [
+            'session_id' => $sessionId,
+            'department_id' => $departmentId,
+        ];
 
-        dd($this->result->whereHas('departmentCourse', function ($query) use($sessionId, $semesterId, $departmentId) {
-            return $query->where([
-                'session_id' => $sessionId,
-                'semester_id' => $semesterId,
-                'department_id' => $departmentId,
-            ]);
-        })->groupBy('matric_no')->get());
+        if ($levelId) {
+            $studentFilter['$level_id'] = $levelId;
+        }
+        $studentsResults = $this->result
+        ->whereHas('departmentCourse', function ($query) use($semesterId) {
+            return $query->where('semester_id', $semesterId);
+        })
+        ->whereHas('student', function ($query) use($studentFilter) {
+            return $query->where($studentFilter);
+        })
+        ->with('student.level','student.department')
+        ->get()->groupBy('matric_no');
+
+        return ($this->calculateStudentGPA($studentsResults));
+    }
+
+    public function calculateStudentGPA($studentsResults) :array{
+        $output = [];
+        foreach ($studentsResults as $studentsResult) {
+            $courseUnits = $studentsResult->sum('course_unit');
+            $totalGp = $studentsResult->sum('gp');
+            $gpa = number_format((double) $totalGp/$courseUnits,2);
+            $matricNo = $studentsResult->first()->matric_no;
+            $level = $studentsResult->first()->student->level?->name;
+            $department = $studentsResult->first()->student->department?->name;
+            $output[] = compact('matricNo','gpa','department','level');
+        }
+        $gpas = array_column($output, 'gpa');
+        array_multisort($gpas, SORT_DESC, $output);
+        return ($output);
     }
 
 }

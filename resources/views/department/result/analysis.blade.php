@@ -68,36 +68,46 @@
             <!--/column-->
         </div>
 
-        {{-- <div class="card-body ">
-            <div class="row">
-                <div class="col-4">
-                    <div><strong>Total Student:</strong></div>
-                    <p>{{ $resultAnalysis['totalCount'] }} students</p>
-                </div>
-                <div class="col-4">
-                    <div><strong>Total Passed:</strong></div>
-                    <p>{{ $resultAnalysis['passed'] }} students ({{ $resultAnalysis['passedPercentage'] }}%)</p>
-                </div>
-                <div class="col-4">
-                    <div><strong>Total Failed:</strong></div>
-                    <p>{{ $resultAnalysis['failed'] }} students ({{ $resultAnalysis['failedPercentage'] }}%)</p>
-                </div>
-                <div class="col-4">
-                    <div><strong>Semester:</strong></div>
-                    <p>{{ $departmentCourse->semester?->name }}</p>
-                </div>
 
-                <div class="col-4">
-                    <div><strong>Lecturer:</strong></div>
-                    <p>{{ $departmentCourse->lecturerCourse?->user?->name }}</p>
-                </div>
+        @isset($studentResults)
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header py-3 border-0 px-3">
+                        <h4 class="heading m-0">Students' Performance</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="table-responsive basic-tbl">
+                            <table id="teacher-table" class="tech-data" style="min-width: 798px">
+                                <thead>
+                                    <tr>
+                                        <th>Matric number</th>
+                                        <th>Department</th>
+                                        <th>Level</th>
+                                        <th>GPA</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($studentResults as $result)
+                                        <tr>
+                                            <td>{{ $result['matricNo']}}</td>
+                                            <td>{{ $result['department']}}</td>
+                                            <td>{{ $result['level']}}</td>
+                                            <td>{{ $result['gpa']}}</td>
+                                        </tr>
+                                    @empty
 
-                <div class="col-4">
-                    <div><strong>Department:</strong></div>
-                    <p>{{ $departmentCourse->department?->name }}</p>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div> --}}
+            <!--/column-->
+        </div>
+        @endisset
+
     </div>
 
 </div>

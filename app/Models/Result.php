@@ -14,6 +14,10 @@ class Result extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function student() {
+        return $this->belongsTo(Student::class, 'matric_no', 'matric_no');
+    }
+
     public function departmentCourse() {
         return $this->belongsTo(DepartmentCourse::class);
     }

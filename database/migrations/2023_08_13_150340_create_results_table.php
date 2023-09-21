@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('total_score');
             $table->string('grade');
             $table->decimal('gp');
+            $table->integer('course_unit');
             $table->timestamps();
         });
     }
