@@ -6,7 +6,9 @@ use App\Models\DepartmentCourse;
 use App\Models\Result;
 use App\Services\StudentService;
 use App\Traits\FileTrait;
+use App\Utils\DepartmentUtil;
 use Exception;
+use Illuminate\Http\Request;
 
 class ResultService {
 
@@ -18,11 +20,11 @@ class ResultService {
     public function getDepartmentCourseResult(int $departmentCourseId) {
         $departmentCourse = $this->departmentCourse->whereId($departmentCourseId)->with('course','department','results','semester','lecturerCourse.user')->first();
         $results = $departmentCourse->results->toArray();
-        $resultAnalysis = $this->getResultAnalysis($results);
+        $resultAnalysis = $this->getPassesAnalysis($results);
         return compact('departmentCourse', 'results', 'resultAnalysis');
     }
 
-    public function getResultAnalysis($resultArray) : array {
+    public function getPassesAnalysis($resultArray) : array {
         $totalCount = count($resultArray);
         $passed = 0;
         $failed = 0;
@@ -39,6 +41,18 @@ class ResultService {
         $failedPercentage = ($failed / $totalCount) * 100;
 
         return compact('passedPercentage','failedPercentage','passed','failed','totalCount');
+    }
+
+    public function getAnalysisForDepartment($sessionId, $semesterId) {
+        $departmentId = DepartmentUtil::getDepartmentId(auth()->user());
+
+        dd($this->result->whereHas('departmentCourse', function ($query) use($sessionId, $semesterId, $departmentId) {
+            return $query->where([
+                'session_id' => $sessionId,
+                'semester_id' => $semesterId,
+                'department_id' => $departmentId,
+            ]);
+        })->groupBy('matric_no')->get());
     }
 
 }

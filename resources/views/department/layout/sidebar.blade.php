@@ -54,7 +54,7 @@
                         <span class="nav-text">Results</span>
                     </a>
                     <ul aria-expanded="false">
-                        {{-- <li><a href="{{route('department.result.index')}}">Results</a></li> --}}
+                        <li><a href="{{route('department.result.index')}}">Analysis</a></li>
                     </ul>
                 </li>
 

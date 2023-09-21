@@ -29,7 +29,8 @@ Route::middleware(['auth','isDepartment'])->prefix('department')->as('department
     });
 
     Route::prefix('results')->as('result.')->group(function () {
-        Route::get('analysis', [ResultController::class,'index'])->name('index');
+        Route::get('', [ResultController::class,'index'])->name('index');
         Route::get('{departmentCourseId}', [ResultController::class,'show'])->name('show');
+        Route::post('analysis', [ResultController::class,'getAnalysisForDepartment'])->name('analysis');
     });
 });
