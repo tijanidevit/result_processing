@@ -3,6 +3,7 @@
 use App\Http\Controllers\Department\CourseController;
 use App\Http\Controllers\Department\DashboardController;
 use App\Http\Controllers\Department\LecturerController;
+use App\Http\Controllers\Department\ResultController;
 use App\Http\Controllers\Department\StudentController;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +26,10 @@ Route::middleware(['auth','isDepartment'])->prefix('department')->as('department
         Route::get('', [CourseController::class,'index'])->name('index');
         Route::get('new', [CourseController::class,'create'])->name('create');
         Route::post('', [CourseController::class,'store'])->name('store');
+    });
+
+    Route::prefix('results')->as('result.')->group(function () {
+        Route::get('analysis', [ResultController::class,'index'])->name('index');
+        Route::get('{departmentCourseId}', [ResultController::class,'show'])->name('show');
     });
 });

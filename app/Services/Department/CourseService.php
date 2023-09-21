@@ -16,6 +16,8 @@ class CourseService {
         ->with('level')
         ->with('lecturerCourse.user')
         ->with('semester')
+        ->with('semester')
+        ->with('result')
         ->whereDepartmentId(DepartmentUtil::getDepartmentId(auth()->user()))
         ->get();
     }

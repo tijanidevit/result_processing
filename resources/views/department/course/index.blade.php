@@ -37,6 +37,7 @@
                                         <th>Level</th>
                                         <th>Semester</th>
                                         <th>Assigned lecturer</th>
+                                        <th>Result</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -47,6 +48,14 @@
                                             <td>{{ $course->level?->name }}</td>
                                             <td>{{ $course->semester?->name }}</td>
                                             <td>{{ $course->lecturerCourse?->user?->name }}</td>
+
+                                            <td>
+                                                @if ($course->result)
+                                                    <a class="btn btn-primary" href="{{ route('department.result.show', $course->id) }}">View Result</a>
+                                                @else
+                                                    <p>Result not added yet</p>
+                                                @endif
+                                            </td>
                                         </tr>
                                     @empty
 
