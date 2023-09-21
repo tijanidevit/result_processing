@@ -26,7 +26,7 @@
                     <div class="card-body ">
                         <form class="row" action="{{ route('department.result.analysis') }}" method="POST">
                             @csrf
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Session</label>
                                     <select class="form-control" required name="session_id" value="{{old('session_id')}}">
@@ -42,7 +42,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Semester</label>
                                     <select class="form-control" required name="semester_id" value="{{old('semester_id')}}">
@@ -55,6 +55,22 @@
                                     </select>
 
                                     {!!  requestError($errors,'semester_id')  !!}
+                                </div>
+                            </div>
+
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Level</label>
+                                    <select class="form-control" name="level_id" value="{{old('level_id')}}">
+                                        <option value="" selected disabled>Select a level</option>
+                                        @forelse ($levels as $level)
+                                            <option value="{{$level->id}}">{{$level->name}}</option>
+                                        @empty
+
+                                        @endforelse
+                                    </select>
+
+                                    {!!  requestError($errors,'level_id')  !!}
                                 </div>
                             </div>
 

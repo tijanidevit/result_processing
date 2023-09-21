@@ -126,6 +126,7 @@ let dataSet = [
 		searching: true,
 		pageLength:50,
 		select: false,
+        "order": [],
 		lengthChange:true ,
 		language: {
 			paginate: {

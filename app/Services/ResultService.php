@@ -50,7 +50,7 @@ class ResultService {
         ];
 
         if ($levelId) {
-            $studentFilter['$level_id'] = $levelId;
+            $studentFilter['level_id'] = $levelId;
         }
         $studentsResults = $this->result
         ->whereHas('departmentCourse', function ($query) use($semesterId) {
