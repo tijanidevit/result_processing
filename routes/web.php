@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DeanController;
+use App\Http\Controllers\Admin\ResultController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('login')->middleware('guest')->group(function () {
@@ -26,5 +27,11 @@ Route::middleware(['auth','isAdmin'])->prefix('admin')->as('admin.')->group(func
         Route::get('', [DeanController::class,'index'])->name('index');
         Route::get('new', [DeanController::class,'create'])->name('create');
         Route::post('', [DeanController::class,'store'])->name('store');
+    });
+
+    Route::prefix('results')->as('result.')->group(function () {
+        Route::get('', [ResultController::class,'index'])->name('index');
+        Route::get('{departmentCourseId}', [ResultController::class,'show'])->name('show');
+        Route::post('analysis', [ResultController::class,'getAnalysisForDepartment'])->name('analysis');
     });
 });

@@ -39,7 +39,7 @@
 
 
     @include('dean.layout.scripts')
-
+    @yield('extra-scripts')
 
 </body>
 </html>

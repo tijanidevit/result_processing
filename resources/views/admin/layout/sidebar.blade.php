@@ -28,7 +28,6 @@
                     </a>
                     <ul aria-expanded="false">
                         <li><a href="{{route('admin.result.index')}}">Results</a></li>
-                        <li><a href="{{route('admin.result.analysis')}}">Results</a></li>
                     </ul>
                 </li>
 

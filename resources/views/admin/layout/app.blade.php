@@ -40,6 +40,6 @@
 
     @include('admin.layout.scripts')
 
-
+    @yield('extra-scripts')
 </body>
 </html>
