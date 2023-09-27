@@ -32,8 +32,6 @@ Route::middleware(['auth','isAdmin'])->prefix('admin')->as('admin.')->group(func
 
     Route::prefix('results')->as('result.')->group(function () {
         Route::get('', [ResultController::class,'index'])->name('index');
-        Route::get('{departmentCourseId}', [ResultController::class,'show'])->name('show');
-        Route::post('analysis', [ResultController::class,'getAnalysisForDepartment'])->name('analysis');
     });
 
     Route::prefix('courses')->as('course.')->group(function () {

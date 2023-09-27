@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Dean\Department;
+namespace App\Http\Requests\Dean\Hod;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddDepartmentRequest extends FormRequest
+class AddHodRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,7 +22,9 @@ class AddDepartmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|unique:departments'
+            'department_id' => 'required|exists:departments,id',
+            'email' => 'required|string|unique:users',
+            'name' => 'required|string',
         ];
     }
 }

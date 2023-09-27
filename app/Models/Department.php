@@ -14,4 +14,8 @@ class Department extends Model
     public function school() {
         return $this->belongsTo(School::class);
     }
+
+    public function hod() {
+        return $this->hasOne(DepartmentHod::class);
+    }
 }

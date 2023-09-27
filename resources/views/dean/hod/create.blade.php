@@ -25,7 +25,7 @@
             <div class="col-xl-12 col-lg-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Dean Details</h4>
+                        <h4 class="card-title">HOD Details</h4>
                     </div>
                     <div class="card-body">
                         <div class="basic-form">
@@ -34,6 +34,33 @@
                                 @if (session('success'))
                                     <div class="alert alert-success">{{ session('success') }}</div>
                                 @endif
+
+                                <div class="mb-3 row">
+                                    <div class="col-sm-3">Department</div>
+                                    <div class="col-sm-9">
+                                        <select class="form-control" name="department_id" value="{{old('department_id')}}">
+                                            <option value="" selected disabled>Select a department</option>
+                                            @forelse ($departments as $department)
+                                                <option value="{{$department->id}}">{{$department->name}}</option>
+                                            @empty
+
+                                            @endforelse
+                                        </select>
+
+                                      {!!  requestError($errors,'department_id')  !!}
+                                    </div>
+                                </div>
+
+
+                                <div class="mb-3 row">
+                                    <label class="col-sm-3 col-form-label">Name</label>
+                                    <div class="col-sm-9">
+                                        <input name="name" value="{{old('name')}}" type="text" class="form-control" placeholder="Name">
+
+                                      {!!  requestError($errors,'name')  !!}
+                                    </div>
+                                </div>
+
                                 <div class="mb-3 row">
                                     <label class="col-sm-3 col-form-label">Email</label>
                                     <div class="col-sm-9">
@@ -42,29 +69,7 @@
                                       {!!  requestError($errors,'email')  !!}
                                     </div>
                                 </div>
-                                <div class="mb-3 row">
-                                    <label class="col-sm-3 col-form-label">Name</label>
-                                    <div class="col-sm-9">
-                                        <input name="name" value="{{old('name')}}" type="text" class="form-control" placeholder="Fullname">
 
-                                      {!!  requestError($errors,'name')  !!}
-                                    </div>
-                                </div>
-                                <div class="mb-3 row">
-                                    <div class="col-sm-3">School</div>
-                                    <div class="col-sm-9">
-                                        <select class="form-control" name="school_id" value="{{old('school_id')}}">
-                                            <option value="" selected disabled>Select a school</option>
-                                            @forelse ($schools as $school)
-                                                <option value="{{$school->id}}">{{$school->name}}</option>
-                                            @empty
-
-                                            @endforelse
-                                        </select>
-
-                                      {!!  requestError($errors,'school_id')  !!}
-                                    </div>
-                                </div>
                                 <div class="mb-3 row">
                                     <div class="col-sm-10">
                                         <button type="submit" class="btn btn-primary">Submit</button>

@@ -16,12 +16,11 @@ class DepartmentController extends Controller
     }
 
     public function create() {
-        $departments = $this->departmentService->getAll();
-        return view('dean.Department.create', compact('departments'));
+        return view('dean.department.create');
     }
 
     public function store(AddDepartmentRequest $request) {
-        $departments = $this->DepartmentService->addNew($request->validated());
+        $this->departmentService->addNew($request->validated());
 
         return redirect()->back()->with('success','Department successfully added!');
     }

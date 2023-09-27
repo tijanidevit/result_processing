@@ -1,4 +1,4 @@
-@extends('admin.layout.app')
+@extends('dean.layout.app')
 
 @section('title')Results @endsection
 
@@ -26,28 +26,17 @@
                     <div class="card-body ">
                         <form class="row" id="resultForm" method="POST">
                             @csrf
-                            <div class="col-md-4 mb-4">
-                                <div class="form-group">
-                                    <label for="">School</label>
-                                    <select class="form-control" id="schoolId" required name="school_id" value="{{old('school_id')}}">
-                                        <option value="" selected disabled>Select a school</option>
-                                        @forelse ($schools as $school)
-                                            <option value="{{$school->id}}">{{$school->name}}</option>
-                                        @empty
-
-                                        @endforelse
-                                    </select>
-
-                                    {!!  requestError($errors,'school_id')  !!}
-                                </div>
-                            </div>
-
 
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
                                     <label for="">Department</label>
                                     <select id="departmentId" class="form-control" required name="department_id">
                                         <option value="" selected disabled>Select a department</option>
+                                        @forelse ($departments as $department)
+                                            <option value="{{$department->id}}">{{$department->name}}</option>
+                                        @empty
+
+                                        @endforelse
                                     </select>
 
                                     {!!  requestError($errors,'department_id')  !!}
@@ -207,31 +196,6 @@
 
 @section('extra-scripts')
 <script>
-    $('#schoolId').change(function () {
-        $('#departmentId').empty()
-        $('#departmentId').append('<option value="" selected disabled>Select a department</option>')
-
-        var schoolId = $(this).val()
-        $.ajax({
-            url: `http://127.0.0.1:8000/api/school/${schoolId}/departments`,
-            type: 'get',
-            async: false,
-            data: {},
-            success: function(departments){
-
-                $.each(departments, function (i, department) {
-                    $('<option>', {
-                        text: department.name,
-                        value: department.id,
-                    }).appendTo($('#departmentId'));
-                });
-            },
-            error: function(err){
-                console.log('err', err)
-            }
-
-        })
-    })
 
     $('#departmentId').change(function () {
         var departmentId = $('#departmentId').val()
