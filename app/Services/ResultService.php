@@ -18,7 +18,7 @@ class ResultService {
     }
 
     public function getDepartmentCourseResult(int $departmentCourseId) {
-        $departmentCourse = $this->departmentCourse->whereId($departmentCourseId)->with('course','department','results','semester','lecturerCourse.user')->first();
+        $departmentCourse = $this->departmentCourse->whereId($departmentCourseId)->with('lecturerCourse.user')->first();
         $results = $departmentCourse->results->toArray();
         $resultAnalysis = $this->getPassesAnalysis($results);
         return compact('departmentCourse', 'results', 'resultAnalysis');

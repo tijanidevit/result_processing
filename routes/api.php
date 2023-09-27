@@ -33,7 +33,7 @@ Route::get('department/courses', function (Request $request) {
 
 Route::get('result/analysis',[ResultController::class, 'getAnalysisForDepartment'])->name('api.result.analysis');
 
-Route::get('result/course',[ResultController::class, 'getAnalysisForDepartment'])->name('api.result.course');
+Route::get('result/course',[ResultController::class, 'show'])->name('api.result.course');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

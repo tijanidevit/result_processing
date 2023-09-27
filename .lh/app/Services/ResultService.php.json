@@ -1,0 +1,18 @@
+{
+    "sourceFile": "app/Services/ResultService.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1695817916614,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1695817916614,
+            "name": "Commit-0",
+            "content": "<?php\nnamespace App\\Services;\n\nuse App\\Jobs\\ResultStorageJob;\nuse App\\Models\\DepartmentCourse;\nuse App\\Models\\Result;\nuse App\\Services\\StudentService;\nuse App\\Traits\\FileTrait;\nuse App\\Utils\\DepartmentUtil;\nuse Exception;\nuse Illuminate\\Http\\Request;\n\nclass ResultService {\n\n    use FileTrait;\n\n    public function __construct(protected Result $result, protected StudentService $studentService, protected DepartmentCourse $departmentCourse) {\n    }\n\n    public function getDepartmentCourseResult(int $departmentCourseId) {\n        $departmentCourse = $this->departmentCourse->whereId($departmentCourseId)->with('lecturerCourse.user')->first();\n        $results = $departmentCourse->results->toArray();\n        $resultAnalysis = $this->getPassesAnalysis($results);\n        return compact('departmentCourse', 'results', 'resultAnalysis');\n    }\n\n    public function getPassesAnalysis($resultArray) : array {\n        $totalCount = count($resultArray);\n        $passed = 0;\n        $failed = 0;\n\n        foreach ($resultArray as $result) {\n            if ($result['grade'] === 'F') {\n                $failed++;\n            } else {\n                $passed++;\n            }\n        }\n\n        $passedPercentage = ($passed / $totalCount) * 100;\n        $failedPercentage = ($failed / $totalCount) * 100;\n\n        return compact('passedPercentage','failedPercentage','passed','failed','totalCount');\n    }\n\n    public function getAnalysisForDepartment($sessionId, $semesterId, $departmentId, $levelId = null) {\n        $studentFilter = [\n            'session_id' => $sessionId,\n            'department_id' => $departmentId,\n        ];\n\n        if ($levelId) {\n            $studentFilter['level_id'] = $levelId;\n        }\n        $studentsResults = $this->result\n        ->whereHas('departmentCourse', function ($query) use($semesterId) {\n            return $query->where('semester_id', $semesterId);\n        })\n        ->whereHas('student', function ($query) use($studentFilter) {\n            return $query->where($studentFilter);\n        })\n        ->with('student.level','student.department')\n        ->get()->groupBy('matric_no');\n\n        return ($this->calculateStudentGPA($studentsResults));\n    }\n\n    public function calculateStudentGPA($studentsResults) :array{\n        $output = [];\n        foreach ($studentsResults as $studentsResult) {\n            $courseUnits = $studentsResult->sum('course_unit');\n            $totalGp = $studentsResult->sum('gp');\n            $gpa = number_format((double) $totalGp/$courseUnits,2);\n            $matricNo = $studentsResult->first()->matric_no;\n            $level = $studentsResult->first()->student->level?->name;\n            $department = $studentsResult->first()->student->department?->name;\n            $output[] = compact('matricNo','gpa','department','level');\n        }\n        $gpas = array_column($output, 'gpa');\n        array_multisort($gpas, SORT_DESC, $output);\n        return ($output);\n    }\n\n}\n"
+        }
+    ]
+}

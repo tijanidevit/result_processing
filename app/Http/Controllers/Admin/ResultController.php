@@ -30,9 +30,9 @@ class ResultController extends Controller
         $schools = $this->schoolService->getAll();
         return view('admin.result.analysis',compact('sessions','semesters','levels','schools'));
     }
-    public function show(int $departmentCourseId) {
-        $resultData = $this->resultService->getDepartmentCourseResult($departmentCourseId);
-        return $resultData['resultAnalysis'];
+    public function show(Request $request) {
+        $resultData = $this->resultService->getDepartmentCourseResult($request->departmentCourseId);
+        return $resultData;
     }
 
     public function getAnalysisForDepartment(Request $request) {

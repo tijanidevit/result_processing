@@ -1,0 +1,42 @@
+{
+    "sourceFile": "app/Http/Controllers/Admin/ResultController.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 6,
+            "patches": [
+                {
+                    "date": 1695816675122,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1695817347197,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,8 +30,9 @@\n         $schools = $this->schoolService->getAll();\n         return view('admin.result.analysis',compact('sessions','semesters','levels','schools'));\n     }\n     public function show(Request $request) {\n+        return $request->departmentCourseId;\n         $resultData = $this->resultService->getDepartmentCourseResult($request->departmentCourseId);\n         return $resultData['resultAnalysis'];\n     }\n \n"
+                },
+                {
+                    "date": 1695817366653,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,8 @@\n         $schools = $this->schoolService->getAll();\n         return view('admin.result.analysis',compact('sessions','semesters','levels','schools'));\n     }\n     public function show(Request $request) {\n-        return $request->departmentCourseId;\n         $resultData = $this->resultService->getDepartmentCourseResult($request->departmentCourseId);\n         return $resultData['resultAnalysis'];\n     }\n \n"
+                },
+                {
+                    "date": 1695817398694,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,8 +30,9 @@\n         $schools = $this->schoolService->getAll();\n         return view('admin.result.analysis',compact('sessions','semesters','levels','schools'));\n     }\n     public function show(Request $request) {\n+        return $request->departmentCourseId;\n         $resultData = $this->resultService->getDepartmentCourseResult($request->departmentCourseId);\n         return $resultData['resultAnalysis'];\n     }\n \n"
+                },
+                {
+                    "date": 1695817414451,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,9 @@\n         $schools = $this->schoolService->getAll();\n         return view('admin.result.analysis',compact('sessions','semesters','levels','schools'));\n     }\n     public function show(Request $request) {\n-        return $request->departmentCourseId;\n+        return $request->departmentCourseId.'ddd';\n         $resultData = $this->resultService->getDepartmentCourseResult($request->departmentCourseId);\n         return $resultData['resultAnalysis'];\n     }\n \n"
+                },
+                {
+                    "date": 1695817522327,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -30,9 +30,8 @@\n         $schools = $this->schoolService->getAll();\n         return view('admin.result.analysis',compact('sessions','semesters','levels','schools'));\n     }\n     public function show(Request $request) {\n-        return $request->departmentCourseId.'ddd';\n         $resultData = $this->resultService->getDepartmentCourseResult($request->departmentCourseId);\n         return $resultData['resultAnalysis'];\n     }\n \n"
+                },
+                {
+                    "date": 1695817723513,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -31,9 +31,9 @@\n         return view('admin.result.analysis',compact('sessions','semesters','levels','schools'));\n     }\n     public function show(Request $request) {\n         $resultData = $this->resultService->getDepartmentCourseResult($request->departmentCourseId);\n-        return $resultData['resultAnalysis'];\n+        return $resultData;\n     }\n \n     public function getAnalysisForDepartment(Request $request) {\n         $studentResults = $this->resultService->getAnalysisForDepartment($request->session_id,$request->semester_id, $request->department_id, $request->level_id);\n"
+                }
+            ],
+            "date": 1695816675122,
+            "name": "Commit-0",
+            "content": "<?php\n\nnamespace App\\Http\\Controllers\\Admin;\n\nuse App\\Http\\Controllers\\Controller;\nuse App\\Services\\Admin\\SchoolService;\nuse App\\Services\\LevelService;\nuse App\\Services\\ResultService;\nuse App\\Services\\SemesterService;\nuse App\\Services\\SessionService;\nuse App\\Utils\\DepartmentUtil;\nuse Illuminate\\Http\\Request;\n\nclass ResultController extends Controller\n{\n    public function __construct(\n        protected ResultService $resultService,\n        protected SessionService $sessionService,\n        protected SemesterService $semesterService,\n        protected SchoolService $schoolService,\n        protected LevelService $levelService,\n    ) {}\n\n\n    public function index() {\n        $sessions = $this->sessionService->getAll();\n        $sessions = $this->sessionService->getAll();\n        $semesters = $this->semesterService->getAll();\n        $levels = $this->levelService->getAll();\n        $schools = $this->schoolService->getAll();\n        return view('admin.result.analysis',compact('sessions','semesters','levels','schools'));\n    }\n    public function show(Request $request) {\n        $resultData = $this->resultService->getDepartmentCourseResult($request->departmentCourseId);\n        return $resultData['resultAnalysis'];\n    }\n\n    public function getAnalysisForDepartment(Request $request) {\n        $studentResults = $this->resultService->getAnalysisForDepartment($request->session_id,$request->semester_id, $request->department_id, $request->level_id);\n\n        return $studentResults;\n    }\n}\n"
+        }
+    ]
+}

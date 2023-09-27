@@ -136,7 +136,7 @@
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive basic-tbl">
-                            <table id="teacher-table" class="tech-data" style="min-width: 798px">
+                            <table class="tech-data teacher-table" style="min-width: 798px">
                                 <thead>
                                     <tr>
                                         <th>Matric number</th>
@@ -146,6 +146,50 @@
                                     </tr>
                                 </thead>
                                 <tbody id="analysisTbody">
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" id="courseArea" style="display: none">
+                    <div class="card-header py-3 border-0 px-3">
+                        <h4 class="heading m-0">Course Result</h4>
+                    </div>
+                    <div class="card-body p-0">
+                        <div class="row p-3">
+                            <div class="col-6 col-md-3">
+                                <div><strong>Total Student:</strong></div>
+                                <p> <span id="totalStudents"></span> students</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div><strong>Total Passed:</strong></div>
+                                <p><span id="passedStudents"></span> students</p>
+                            </div>
+                            <div class="col-6 col-md-3">
+                                <div><strong>Total Failed:</strong></div>
+                                <p><span id="failedStudents"></span> students</p>
+                            </div>
+
+                            <div class="col-6 col-md-3">
+                                <div><strong>Lecturer:</strong></div>
+                                <p id="lecturer"></p>
+                            </div>
+                        </div>
+                        <div class="table-responsive basic-tbl">
+                            <table class="tech-data teacher-table" style="min-width: 798px">
+                                <thead>
+                                    <tr>
+                                        <th>Matric No</th>
+                                        <th>CA Score</th>
+                                        <th>Exam Score</th>
+                                        <th>Total Score</th>
+                                        <th>Grade</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="courseTbody">
 
                                 </tbody>
                             </table>
@@ -209,11 +253,17 @@
 
 
     $('#analysisBtn').click(function () {
-        $('#analysisArea').fadeIn(6000)
         semester_id = $('#semesterId').val()
         session_id = $('#sessionId').val()
         department_id = $('#departmentId').val()
         level_id = $('#levelId').val()
+        if (!semester_id || !session_id || !department_id || !level_id) {
+            alert('Please make sure you select a semester, session, department and a level')
+            return
+        }
+
+        $('#courseArea').hide()
+        $('#analysisArea').fadeIn(6000)
         $('#analysisTbody').empty()
         var schoolId = $(this).val()
         $.ajax({
@@ -233,6 +283,51 @@
                             <td>${result['department']} </td>
                             <td>${result['level']} </td>
                             <td>${result['gpa']} </td>
+                        </tr>
+                    `)
+                });
+            }
+
+        })
+    })
+
+    $('#courseBtn').click(function () {
+        departmentCourseId = $('#courseId').val()
+        if (!departmentCourseId) {
+            alert('Please select a course')
+            return
+        }
+
+        $('#analysisArea').hide()
+        $('#courseArea').fadeIn(6000)
+        $('#courseTbody').empty()
+
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/result/course`,
+            type: 'get',
+            data: {
+                departmentCourseId
+            },
+            success: function(resultData){
+                console.log('resultData', resultData)
+                if (resultData) {
+                    $('#totalStudents').text(resultData.resultAnalysis['totalCount'])
+                    $('#passedStudents').text(`${resultData.resultAnalysis['passed']} - (${resultData.resultAnalysis['passedPercentage']}%)`)
+                    $('#failedStudents').text(`${resultData.resultAnalysis['passed']} - (${resultData.resultAnalysis['failedPercentage']}%)`)
+                    $('#lecturer').text(resultData.departmentCourse?.lecturer_course?.user?.name)
+                }
+
+                var results = resultData.results
+
+                $.each(results, function (i, result) {
+                    $('#courseTbody').append(`
+                        <tr>
+                            <td>${result.matric_no} </td>
+                            <td>${result.test_score} </td>
+                            <td>${result.exam_score} </td>
+                            <td>${result.total_score} </td>
+                            <td>${result.grade} </td>
+                            <td class=${result.total_score> 39 ? 'text-success' : 'text-danger'}>${result.total_score> 39 ? 'Passed' : 'Failed'} </td>
                         </tr>
                     `)
                 });

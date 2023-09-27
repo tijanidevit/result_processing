@@ -136,6 +136,25 @@ let dataSet = [
 		  }
     });
 
+
+    var table = $('.teacher-table').DataTable({
+        createdRow: function ( row, data, index ) {
+           $(row).addClass('selected')
+        } ,
+
+		searching: true,
+		pageLength:50,
+		select: false,
+        "order": [],
+		lengthChange:true ,
+		language: {
+			paginate: {
+			  next: '<i class="fa-solid fa-angle-right"></i>',
+			  previous: '<i class="fa-solid fa-angle-left"></i>'
+			}
+		  }
+    });
+
 	  //example-payment
     var table = $('#example-payment').DataTable({
         createdRow: function ( row, data, index ) {

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "routes/api.php",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1695817374544,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1695817374544,
+            "name": "Commit-0",
+            "content": "<?php\n\nuse App\\Http\\Controllers\\Admin\\ResultController;\nuse App\\Models\\Department;\nuse App\\Models\\DepartmentCourse;\nuse Illuminate\\Http\\Request;\nuse Illuminate\\Support\\Facades\\Route;\n\n/*\n|--------------------------------------------------------------------------\n| API Routes\n|--------------------------------------------------------------------------\n|\n| Here is where you can register API routes for your application. These\n| routes are loaded by the RouteServiceProvider and all of them will\n| be assigned to the \"api\" middleware group. Make something great!\n|\n*/\n\nRoute::get('school/{schoolId}/departments', function (Request $request) {\n    return Department::whereSchoolId($request->schoolId)->get();\n})->name('api.school.departments');\n\n\nRoute::get('department/courses', function (Request $request) {\n    return DepartmentCourse::where([\n        'level_id' => $request->levelId,\n        'department_id' => $request->departmentId,\n        'semester_id' => $request->semesterId,\n    ])->with('course')->get();\n})->name('api.department.courses');\n\n\nRoute::get('result/analysis',[ResultController::class, 'getAnalysisForDepartment'])->name('api.result.analysis');\n\nRoute::get('result/course',[ResultController::class, 'show'])->name('api.result.course');\n\n\nRoute::middleware('auth:sanctum')->get('/user', function (Request $request) {\n    return $request->user();\n});\n"
+        }
+    ]
+}
