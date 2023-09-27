@@ -32,19 +32,12 @@ class ResultController extends Controller
     }
     public function show(int $departmentCourseId) {
         $resultData = $this->resultService->getDepartmentCourseResult($departmentCourseId);
-        $departmentCourse = $resultData['departmentCourse'];
-        $resultAnalysis = $resultData['resultAnalysis'];
-        return view('admin.result.show',compact('departmentCourse','resultAnalysis'));
+        return $resultData['resultAnalysis'];
     }
 
     public function getAnalysisForDepartment(Request $request) {
-        $departmentId = DepartmentUtil::getDepartmentId(auth()->user());
-        $studentResults = $this->resultService->getAnalysisForDepartment($request->session_id,$request->semester_id, $departmentId, $request->level_id);
+        $studentResults = $this->resultService->getAnalysisForDepartment($request->session_id,$request->semester_id, $request->department_id, $request->level_id);
 
-
-        $sessions = $this->sessionService->getAll();
-        $semesters = $this->semesterService->getAll();
-        $levels = $this->levelService->getAll();
-        return view('admin.result.analysis',compact('sessions','semesters','studentResults','levels'));
+        return $studentResults;
     }
 }

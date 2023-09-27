@@ -1,6 +1,6 @@
 <script src="{{asset('assets/vendor/global/global.min.js')}}"></script>
 <script src="{{asset('assets/vendor/chart.js')}}"></script>
-<script src="{{asset('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script>
+{{-- <script src="{{asset('assets/vendor/bootstrap-select/dist/js/bootstrap-select.min.js')}}"></script> --}}
 <!-- Apex Chart -->
 <script src="{{asset('assets/vendor/apexchart/apexchart.js')}}"></script>
 <!-- Chart piety plugin files -->
@@ -15,12 +15,13 @@
 <script src="{{asset('assets/js/plugins-init/datatables.init.js')}}"></script>
 
 <!-- Dashboard 1 -->
-<script src="{{asset('assets/js/dashboard/dashboard-1.js')}}"></script>
+{{--
 <script src="{{asset('assets/vendor/wow-master/dist/wow.min.js')}}"></script>
 <script src="{{asset('assets/vendor/bootstrap-datetimepicker/js/moment.js')}}"></script>
 <script src="{{asset('assets/vendor/datepicker/js/bootstrap-datepicker.min.js')}}"></script>
-<script src="{{asset('assets/vendor/bootstrap-select-country/js/bootstrap-select-country.min.js')}}"></script>
+<script src="{{asset('assets/vendor/bootstrap-select-country/js/bootstrap-select-country.min.js')}}"></script> --}}
 
+<script src="{{asset('assets/js/dashboard/dashboard-1.js')}}"></script>
 <script src="{{asset('assets/js/dlabnav-init.js')}}"></script>
 <script src="{{asset('assets/js/custom.min.js')}}"></script>
 <script src="{{asset('assets/js/demo.js')}}"></script>

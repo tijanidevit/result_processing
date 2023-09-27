@@ -24,7 +24,7 @@
                         <h4 class="heading m-0">Select result data</h4>
                     </div>
                     <div class="card-body ">
-                        <form class="row" action="{{ route('admin.result.analysis') }}" method="POST">
+                        <form class="row" id="resultForm" method="POST">
                             @csrf
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
@@ -46,7 +46,7 @@
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
                                     <label for="">Department</label>
-                                    <select id="dept" class="form-control dept" required name="department_id">
+                                    <select id="departmentId" class="form-control" required name="department_id">
                                         <option value="" selected disabled>Select a department</option>
                                     </select>
 
@@ -58,7 +58,7 @@
                                 <div class="form-group">
                                     <label for="">Semester</label>
                                     <select class="form-control"  id="semesterId" required name="semester_id" value="{{old('semester_id')}}">
-                                        <option value="" selected disabled>Select a semester</option>
+                                        {{-- <option value="" selected disabled>Select a semester</option> --}}
                                         @forelse ($semesters as $semester)
                                             <option value="{{$semester->id}}">{{$semester->name}}</option>
                                         @empty
@@ -72,9 +72,9 @@
 
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
-                                    <label for="" id="lvlx">Level</label>
-                                    <select class="form-control lvl" name="level_id" value="{{old('level_id')}}">
-                                        <option value="" selected disabled>Select a level</option>
+                                    <label for="">Level</label>
+                                    <select class="form-control" id="levelId" name="level_id" value="{{old('level_id')}}">
+                                        {{-- <option value="" selected disabled>Select a level</option> --}}
                                         @forelse ($levels as $level)
                                             <option value="{{$level->id}}">{{$level->name}}</option>
                                         @empty
@@ -102,7 +102,7 @@
                             <div class="col-md-4 mb-4">
                                 <div class="form-group">
                                     <label for="">Session</label>
-                                    <select class="form-control" required name="session_id" value="{{old('session_id')}}">
+                                    <select class="form-control" id="sessionId" required name="session_id" value="{{old('session_id')}}">
                                         <option value="" selected disabled>Select a session</option>
                                         @forelse ($sessions as $session)
                                             <option value="{{$session->id}}">{{$session->name}}</option>
@@ -117,7 +117,8 @@
 
 
                             <div class="col-md-12 mt-3">
-                                <button type="submit" class="btn btn-primary">Get analysis</button>
+                                <button type="button" id="analysisBtn" class="btn btn-primary">Get analysis</button>
+                                <button type="button" id="courseBtn" class="btn btn-primary">Get course result</button>
                             </div>
                         </form>
                     </div>
@@ -127,10 +128,9 @@
         </div>
 
 
-        @isset($studentResults)
         <div class="row">
             <div class="col-xl-12">
-                <div class="card">
+                <div class="card" id="analysisArea" style="display: none">
                     <div class="card-header py-3 border-0 px-3">
                         <h4 class="heading m-0">Students' Performance</h4>
                     </div>
@@ -145,17 +145,8 @@
                                         <th>GPA</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    @forelse ($studentResults as $result)
-                                        <tr>
-                                            <td>{{ $result['matricNo']}}</td>
-                                            <td>{{ $result['department']}}</td>
-                                            <td>{{ $result['level']}}</td>
-                                            <td>{{ $result['gpa']}}</td>
-                                        </tr>
-                                    @empty
+                                <tbody id="analysisTbody">
 
-                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -164,7 +155,6 @@
             </div>
             <!--/column-->
         </div>
-        @endisset
 
     </div>
 
@@ -174,6 +164,9 @@
 @section('extra-scripts')
 <script>
     $('#schoolId').change(function () {
+        $('#departmentId').empty()
+        $('#departmentId').append('<option value="" selected disabled>Select a department</option>')
+
         var schoolId = $(this).val()
         $.ajax({
             url: `http://127.0.0.1:8000/api/school/${schoolId}/departments`,
@@ -181,22 +174,99 @@
             async: false,
             data: {},
             success: function(departments){
-                console.log('departments', departments)
-
 
                 $.each(departments, function (i, department) {
-                    // $('.lvl').html($('<option>', {
-                    //     value: department.id,
-                    //     text : department.name
-                    // }));
                     $('<option>', {
                         text: department.name,
                         value: department.id,
-                    }).appendTo($('.dept'));
+                    }).appendTo($('#departmentId'));
                 });
             }
 
         })
     })
+
+    $('#departmentId').change(function () {
+        var departmentId = $('#departmentId').val()
+        var levelId = $('#levelId').val()
+        var semesterId = $('#semesterId').val()
+        getDepartmentCourse(departmentId,levelId,semesterId)
+    })
+
+    $('#levelId').change(function () {
+        var departmentId = $('#departmentId').val()
+        var levelId = $('#levelId').val()
+        var semesterId = $('#semesterId').val()
+        getDepartmentCourse(departmentId,levelId,semesterId)
+    })
+
+    $('#semesterId').change(function () {
+        var departmentId = $('#departmentId').val()
+        var levelId = $('#levelId').val()
+        var semesterId = $('#semesterId').val()
+        getDepartmentCourse(departmentId,levelId,semesterId)
+    })
+
+
+    $('#analysisBtn').click(function () {
+        $('#analysisArea').fadeIn(6000)
+        semester_id = $('#semesterId').val()
+        session_id = $('#sessionId').val()
+        department_id = $('#departmentId').val()
+        level_id = $('#levelId').val()
+        $('#analysisTbody').empty()
+        var schoolId = $(this).val()
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/result/analysis`,
+            type: 'get',
+            data: {
+                semester_id,
+                session_id,
+                department_id,
+                level_id
+            },
+            success: function(results){
+                $.each(results, function (i, result) {
+                    $('#analysisTbody').append(`
+                        <tr>
+                            <td>${result['matricNo']} </td>
+                            <td>${result['department']} </td>
+                            <td>${result['level']} </td>
+                            <td>${result['gpa']} </td>
+                        </tr>
+                    `)
+                });
+            }
+
+        })
+    })
+
+    const getDepartmentCourse = (departmentId,levelId,semesterId) => {
+
+        $('#courseId').empty()
+        $('#courseId').append('<option value="" selected disabled>Select a course</option>')
+        $.ajax({
+            url: `http://127.0.0.1:8000/api/department/courses`,
+            type: 'get',
+            async: false,
+            data: {
+                departmentId,
+                levelId,
+                semesterId
+            },
+            success: function(courses){
+                $.each(courses, function (i, course) {
+                    $('<option>', {
+                        text: course.course.title,
+                        value: course.id,
+                    }).appendTo($('#courseId'));
+                });
+            },
+            error: function(err){
+                console.log('err', err)
+            }
+
+        })
+    }
 </script>
 @endsection
