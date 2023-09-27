@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 
-@section('title')Deans @endsection
+@section('title')Courses @endsection
 
 @section('content')
 <div class="content-body">
@@ -10,11 +10,11 @@
             <div class="col-xl-12">
                 <div class="page-title flex-wrap">
                     <div class=" mb-md-0 mb-3">
-                        <h2>List of all deans</h2>
+                        <h2>List of all courses</h2>
                     </div>
                     <div>
-                        <a type="button" class="btn btn-primary" href="{{route('admin.dean.create')}}">
-                         + New dean
+                        <a type="button" class="btn btn-primary" href="{{route('admin.course.create')}}">
+                         + New course
                         </a>
                     </div>
                 </div>
@@ -25,24 +25,24 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-header py-3 border-0 px-3">
-                        <h4 class="heading m-0">Deans' Details</h4>
+                        <h4 class="heading m-0">Courses' Details</h4>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive basic-tbl">
                             <table id="teacher-table" class="tech-data" style="min-width: 798px">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>School</th>
+                                        <th>Title</th>
+                                        <th>Code</th>
+                                        <th>Unit</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($deans as $dean)
+                                    @forelse ($courses as $course)
                                         <tr>
-                                            <td>{{ $dean->name }}</td>
-                                            <td>{{ $dean->email }}</td>
-                                            <td>{{ $dean->schoolDean?->school?->name }}</td>
+                                            <td>{{ $course->title }}</td>
+                                            <td>{{ $course->code }}</td>
+                                            <td>{{ $course->unit }}</td>
                                         </tr>
                                     @empty
 

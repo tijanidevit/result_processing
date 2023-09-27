@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CourseController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DeanController;
@@ -33,5 +34,11 @@ Route::middleware(['auth','isAdmin'])->prefix('admin')->as('admin.')->group(func
         Route::get('', [ResultController::class,'index'])->name('index');
         Route::get('{departmentCourseId}', [ResultController::class,'show'])->name('show');
         Route::post('analysis', [ResultController::class,'getAnalysisForDepartment'])->name('analysis');
+    });
+
+    Route::prefix('courses')->as('course.')->group(function () {
+        Route::get('', [CourseController::class,'index'])->name('index');
+        Route::get('new', [CourseController::class,'create'])->name('create');
+        Route::post('', [CourseController::class,'store'])->name('store');
     });
 });

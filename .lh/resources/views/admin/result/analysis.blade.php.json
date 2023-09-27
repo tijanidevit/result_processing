@@ -3,7 +3,7 @@
     "activeCommit": 0,
     "commits": [
         {
-            "activePatchIndex": 57,
+            "activePatchIndex": 60,
             "patches": [
                 {
                     "date": 1695816382298,
@@ -236,6 +236,18 @@
                 {
                     "date": 1695820221388,
                     "content": "Index: \n===================================================================\n--- \n+++ \n@@ -257,9 +257,9 @@\n         session_id = $('#sessionId').val()\n         department_id = $('#departmentId').val()\n         level_id = $('#levelId').val()\n         if (!semester_id || !session_id || !department_id || !level_id) {\n-            alert('Please select a course')\n+            alert('Please make sure you select a semester, session, department and a level')\n             return\n         }\n \n         $('#courseArea').hide()\n"
+                },
+                {
+                    "date": 1695822054085,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -308,9 +308,8 @@\n             data: {\n                 departmentCourseId\n             },\n             success: function(resultData){\n-                console.log('resultData', resultData)\n                 if (resultData) {\n                     $('#totalStudents').text(resultData.resultAnalysis['totalCount'])\n                     $('#passedStudents').text(`${resultData.resultAnalysis['passed']} - (${resultData.resultAnalysis['passedPercentage']}%)`)\n                     $('#failedStudents').text(`${resultData.resultAnalysis['passed']} - (${resultData.resultAnalysis['failedPercentage']}%)`)\n"
+                },
+                {
+                    "date": 1695822110305,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -285,8 +285,11 @@\n                             <td>${result['gpa']} </td>\n                         </tr>\n                     `)\n                 });\n+            },\n+            error: function(err){\n+                console.log('err', err)\n             }\n \n         })\n     })\n@@ -329,8 +332,11 @@\n                             <td class=${result.total_score> 39 ? 'text-success' : 'text-danger'}>${result.total_score> 39 ? 'Passed' : 'Failed'} </td>\n                         </tr>\n                     `)\n                 });\n+            },\n+            error: function(err){\n+                console.log('err', err)\n             }\n \n         })\n     })\n"
+                },
+                {
+                    "date": 1695822123615,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -224,8 +224,11 @@\n                         text: department.name,\n                         value: department.id,\n                     }).appendTo($('#departmentId'));\n                 });\n+            },\n+            error: function(err){\n+                console.log('err', err)\n             }\n \n         })\n     })\n"
                 }
             ],
             "date": 1695816382298,

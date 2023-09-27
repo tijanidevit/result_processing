@@ -16,7 +16,19 @@
                     </a>
                     <ul aria-expanded="false">
                         <li><a href="{{route('admin.dean.index')}}">Deans</a></li>
-                        <li><a href="{{route('admin.dean.store')}}">Add New Dean</a></li>
+                        <li><a href="{{route('admin.dean.create')}}">Add New Dean</a></li>
+                    </ul>
+                </li>
+
+
+                <li>
+                    <a class="has-arrow " href="javascript:void(0);" aria-expanded="false">
+                        <i class="material-symbols-outlined">book</i>
+                        <span class="nav-text">Courses</span>
+                    </a>
+                    <ul aria-expanded="false">
+                        <li><a href="{{route('admin.course.index')}}">Courses</a></li>
+                        <li><a href="{{route('admin.course.create')}}">Add New Course</a></li>
                     </ul>
                 </li>
 

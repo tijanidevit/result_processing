@@ -225,6 +225,9 @@
                         value: department.id,
                     }).appendTo($('#departmentId'));
                 });
+            },
+            error: function(err){
+                console.log('err', err)
             }
 
         })
@@ -286,6 +289,9 @@
                         </tr>
                     `)
                 });
+            },
+            error: function(err){
+                console.log('err', err)
             }
 
         })
@@ -309,7 +315,6 @@
                 departmentCourseId
             },
             success: function(resultData){
-                console.log('resultData', resultData)
                 if (resultData) {
                     $('#totalStudents').text(resultData.resultAnalysis['totalCount'])
                     $('#passedStudents').text(`${resultData.resultAnalysis['passed']} - (${resultData.resultAnalysis['passedPercentage']}%)`)
@@ -331,6 +336,9 @@
                         </tr>
                     `)
                 });
+            },
+            error: function(err){
+                console.log('err', err)
             }
 
         })
