@@ -54,6 +54,7 @@ class ResultStorageJob implements ShouldQueue
                     'test_score' => $data['CA Score'],
                     'exam_score' => $data['Exam Score'],
                     'total_score' => $data['Total Score'],
+                    'course_unit' => $courseUnit,
                     'grade' => $gradeAndGp[0],
                     'gp' => $gradeAndGp[1],
                     'created_at' => now(),

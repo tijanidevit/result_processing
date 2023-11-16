@@ -21,7 +21,6 @@ return new class extends Migration
             $table->integer('test_score');
             $table->integer('exam_score');
             $table->integer('total_score');
-            $table->integer('total_score');
             $table->string('grade');
             $table->decimal('gp');
             $table->integer('course_unit');
